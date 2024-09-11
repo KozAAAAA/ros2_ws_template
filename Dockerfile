@@ -1,10 +1,9 @@
-FROM ros:jazzy-ros-base-noble
+ARG ROS_DISTRO=rolling-ros-base-noble
+FROM ros:$ROS_DISTRO
 
-# Configure environment
-ARG USERNAME=ros
-ARG PROJECT_PATH=/home/ros
-ARG LAUNCH_FILE=ros.launch.py
-ARG USER_UID=1001
+ARG USERNAME
+ARG PROJECT_PATH
+ARG USER_UID
 ARG USER_GID=$USER_UID
 
 SHELL ["/bin/bash", "-c"]
@@ -48,5 +47,3 @@ RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
 
 RUN rm -rf /var/lib/apt/lists/*
 USER $USERNAME
-CMD ["/bin/bash", "-c", "source install/setup.bash && ros2 launch launch/$LAUNCH_FILE"]
-
