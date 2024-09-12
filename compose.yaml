@@ -8,9 +8,8 @@ services:
       args:
         ROS_DISTRO: rolling-ros-base-noble
         USERNAME: ros
+        WORKSPACE: ros_ws
         USER_UID: 1001
-        PROJECT_PATH: /home/ros
-        LAUNCH_FILE: ros.launch.py
     image: ros2-ws-template
     container_name: ros2-ws-template
     environment:
