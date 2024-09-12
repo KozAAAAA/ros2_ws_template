@@ -3,6 +3,7 @@ FROM ros:$ROS_DISTRO
 
 ARG USERNAME
 ARG WORKSPACE
+ARG ROSDEP_SOURCE
 ARG USER_UID
 ARG USER_GID=$USER_UID
 
@@ -36,10 +37,7 @@ WORKDIR $PROJECT_PATH
 
 # Install ROS2 dependencies
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
-RUN printf "\
-  yaml file://$PROJECT_PATH/rosdep/base.yaml\n\
-  yaml file://$PROJECT_PATH/rosdep/python.yaml"\
-  >> /etc/ros/rosdep/sources.list.d/20-default.list
+RUN echo "yaml $ROSDEP_SOURCE" >> /etc/ros/rosdep/sources.list.d/20-default.list
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src -r -y
 

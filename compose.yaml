@@ -10,6 +10,7 @@ services:
         USERNAME: ros
         WORKSPACE: ros_ws
         USER_UID: 1001
+        ROSDEP_SOURCE: file:///home/ros/ros_ws/rosdep/rosdep.yaml
     image: ros2-ws-template
     container_name: ros2-ws-template
     environment:
