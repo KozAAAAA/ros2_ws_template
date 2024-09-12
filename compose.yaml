@@ -8,9 +8,9 @@ services:
       args:
         ROS_DISTRO: rolling-ros-base-noble
         USERNAME: ros
-        WORKSPACE: ros_ws
-        USER_UID: 1001
+        WORKSPACE_PATH: /home/ros/ros_ws
         ROSDEP_SOURCE: file:///home/ros/ros_ws/rosdep/rosdep.yaml
+        USER_UID: 1001
     image: ros2-ws-template
     container_name: ros2-ws-template
     environment:
@@ -18,8 +18,8 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ~/.Xauthority:/root/.Xauthority
-      - ./src:/home/ros/src
-      - ./launch:/home/ros/launch
-      - ./config:/home/ros/config
-      - ./rosdep:/home/ros/rosdep
+      - ./src:/home/ros/ros_ws/src
+      - ./launch:/home/ros/ros_ws/launch
+      - ./config:/home/ros/ros_ws/config
+      - ./rosdep:/home/ros/ros_ws/rosdep
     command: ["bash", "-c", "source install/setup.bash && ros2 launch launch/ros.launch.py"]

@@ -2,12 +2,11 @@ ARG ROS_DISTRO=rolling-ros-base-noble
 FROM ros:$ROS_DISTRO
 
 ARG USERNAME
-ARG WORKSPACE
+ARG WORKSPACE_PATH
 ARG ROSDEP_SOURCE
 ARG USER_UID
 ARG USER_GID=$USER_UID
 
-ARG PROJECT_PATH=/home/$USERNAME/$WORKSPACE
 
 SHELL ["/bin/bash", "-c"]
 
@@ -29,11 +28,11 @@ RUN apt-get install -y --fix-missing --quiet --no-install-recommends \
   python3-pip
 
 # Copy project files
-COPY ./src $PROJECT_PATH/src
-COPY ./launch $PROJECT_PATH/launch
-COPY ./config $PROJECT_PATH/config
-COPY ./rosdep $PROJECT_PATH/rosdep
-WORKDIR $PROJECT_PATH
+COPY ./src $WORKSPACE_PATH/src
+COPY ./launch $WORKSPACE_PATH/launch
+COPY ./config $WORKSPACE_PATH/config
+COPY ./rosdep $WORKSPACE_PATH/rosdep
+WORKDIR $WORKSPACE_PATH
 
 # Install ROS2 dependencies
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
@@ -46,7 +45,7 @@ RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
   colcon build --symlink-install
 
 # Make sure the user has access to the project files
-RUN chown -R $USERNAME:$USERNAME $PROJECT_PATH
+RUN chown -R $USERNAME:$USERNAME $WORKSPACE_PATH
 
 RUN rm -rf /var/lib/apt/lists/*
 USER $USERNAME
